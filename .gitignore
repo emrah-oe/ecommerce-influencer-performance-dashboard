@@ -1,0 +1,22 @@
+node_modules/
+data/synthetic/*.json
+dist/
+
+# Umgebungsvariablen – .env.example bleibt erlaubt
+.env
+.env.local
+.env.*.local
+
+# Build-Artefakte
+.next/
+
+# Lokale Editor-/Tool-Konfiguration
+.claude/settings.local.json
+
+# Lokale Referenzdateien
+docs/CLAUDE.md_infos_and_templates/
+docs/context/*.pdf
+docs/superpowers/
+docs/session-notes/
+docs/portfolio/02-projektbeschreibung.md
+docs/implementation/10-ap6-dashboard-wirtschaftliche-bewertung.md

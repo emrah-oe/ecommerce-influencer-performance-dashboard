@@ -1,0 +1,42 @@
+[
+  {
+    "id": "inf_shopify_001",
+    "handle": "anna",
+    "volumeClass": "top",
+    "isMixed": false,
+    "discountCode": "ANNA10",
+    "noReturnRatio": 0.80,
+    "partialReturnRatio": 0.15,
+    "fullReturnRatio": 0.05
+  },
+  {
+    "id": "inf_shopify_002",
+    "handle": "mira",
+    "volumeClass": "top",
+    "isMixed": false,
+    "discountCode": "MIRA10",
+    "noReturnRatio": 0.80,
+    "partialReturnRatio": 0.15,
+    "fullReturnRatio": 0.05
+  },
+  {
+    "id": "inf_shopify_003",
+    "handle": "lara",
+    "volumeClass": "mid",
+    "isMixed": true,
+    "discountCode": "LARA10",
+    "noReturnRatio": 0.75,
+    "partialReturnRatio": 0.18,
+    "fullReturnRatio": 0.07
+  },
+  {
+    "id": "inf_shopify_004",
+    "handle": "ben",
+    "volumeClass": "mid",
+    "isMixed": false,
+    "discountCode": "BEN15",
+    "noReturnRatio": 0.75,
+    "partialReturnRatio": 0.18,
+    "fullReturnRatio": 0.07
+  }
+]

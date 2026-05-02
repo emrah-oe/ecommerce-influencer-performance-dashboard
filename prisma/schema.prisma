@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------------------------------------------------------
+// Enums – spiegeln scripts/lib/types.ts 1:1 wider
+// ---------------------------------------------------------------------------
+
+enum AttributionStatus {
+  clean_influencer
+  mixed_code
+  unknown
+}
+
+enum ReturnStatus {
+  no_return
+  partial_return
+  full_return
+}
+
+enum ReturnSource {
+  tag
+  metafield
+  none
+}
+
+enum VolumeClass {
+  top
+  mid
+  long_tail
+}
+
+// ---------------------------------------------------------------------------
+// Influencer
+// ---------------------------------------------------------------------------
+// discountCode bleibt flach (String), kein eigenes Modell:
+// DiscountCode.influencerId und .isMixed sind Duplikate des Influencer-Feldes –
+// eine eigene Tabelle hätte aktuell keinen eigenständigen Abfragefall.
+
+model Influencer {
+  id                 String      @id
+  handle             String      @unique
+  volumeClass        VolumeClass @map("volume_class")
+  isMixed            Boolean     @map("is_mixed")
+  discountCode       String      @unique @map("discount_code")
+  noReturnRatio      Float       @map("no_return_ratio")
+  partialReturnRatio Float       @map("partial_return_ratio")
+  fullReturnRatio    Float       @map("full_return_ratio")
+
+  orders Order[]
+
+  @@map("influencers")
+}
+
+// ---------------------------------------------------------------------------
+// Order
+// ---------------------------------------------------------------------------
+
+model Order {
+  orderId                String            @id @map("order_id")
+  orderDate              DateTime          @map("order_date")
+  grossRevenue           Decimal           @map("gross_revenue") @db.Decimal(10, 2)
+  hasDiscountCode        Boolean           @map("has_discount_code")
+  usedDiscountCode       String?           @map("used_discount_code")
+  attributionStatus      AttributionStatus @map("attribution_status")
+  attributedInfluencerId String?           @map("attributed_influencer_id")
+  returnStatus           ReturnStatus      @map("return_status")
+  refundAmount           Decimal           @map("refund_amount") @db.Decimal(10, 2)
+  returnSource           ReturnSource      @map("return_source")
+  rawTags                Json              @map("raw_tags")
+  rawMetafields          Json              @map("raw_metafields")
+  rawOrderPayload        Json              @map("raw_order_payload")
+  isEdgeCase             Boolean           @map("is_edge_case")
+
+  influencer Influencer? @relation(fields: [attributedInfluencerId], references: [id])
+
+  @@map("orders")
+}
+
+// ---------------------------------------------------------------------------
+// SyncRun – Protokoll jedes Sync-Durchlaufs (Phase 1: Generator-Metadaten)
+// ---------------------------------------------------------------------------
+
+model SyncRun {
+  id           Int       @id @default(autoincrement())
+  seed         Int?
+  generatedAt  DateTime? @map("generated_at")
+  config       Json
+  counts       Json
+  status       String    @default("success")
+  errorMessage String?   @map("error_message")
+
+  @@map("sync_runs")
+}
