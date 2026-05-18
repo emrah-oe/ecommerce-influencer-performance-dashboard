@@ -4,7 +4,7 @@
 
 Analytisches Dashboard zur wirtschaftlichen Bewertung von Influencer-Kooperationen – auf Basis von Nettoumsatz, Retouren und explizit ausgewiesener Attributionsunsicherheit.
 
-**Live Demo:** [Dashboard öffnen](https://ecommerce-influencer-performance-da.vercel.app)
+**Live Demo:** [Dashboard öffnen](https://ecommerce-influencer-performance-da.vercel.app) – zugriffsgeschützt via HTTP Basic Auth · Zugang auf Anfrage
 
 ---
 
@@ -78,6 +78,9 @@ Businesslogik läuft ausschließlich in `src/logic/` und `src/metrics/` – nie 
 - **Tabelle** – sortierbar nach 8 Spalten, paginiert, URL-basiert (Browser-Zurück-kompatibel)
 - **Influencer-Scoring** – 4-stufige Bewertung (`Schwach / Prüfen / Solide / Stark`) nach Nettoumsatz, Retourenwert-Quote und eindeutig zuordenbarem Nettoanteil
 - **Light/Dark Mode**
+- **Zugriffsschutz** – HTTP Basic Auth via Next.js Middleware
+- **PII-bereinigte Payloads** – Kundendaten wie E-Mail, Adressen und Telefon werden vor der Speicherung aus Shopify-Rohdaten entfernt
+- **Supabase RLS** – Row Level Security auf allen zentralen Tabellen aktiv
 
 ---
 
@@ -125,8 +128,12 @@ npm run build        # Produktions-Build
 | Kontext | Variable | Pflicht |
 |---|---|---|
 | Vercel / Live-Dashboard | `DATABASE_URL` | Ja |
+| Vercel / Live-Dashboard | `DASHBOARD_BASIC_AUTH_USER` | Ja |
+| Vercel / Live-Dashboard | `DASHBOARD_BASIC_AUTH_PASSWORD` | Ja |
 | Lokale Entwicklung | `DATABASE_URL` | Ja |
 | Lokale Entwicklung | `DIRECT_URL` | Empfohlen (Prisma CLI / Migrationen) |
+| Lokale Entwicklung | `DASHBOARD_BASIC_AUTH_USER` | Ja |
+| Lokale Entwicklung | `DASHBOARD_BASIC_AUTH_PASSWORD` | Ja |
 | Shopify-Sync-/Seed-Skripte | `SHOPIFY_STORE_DOMAIN` | Ja |
 | Shopify-Sync-/Seed-Skripte | `SHOPIFY_CLIENT_ID` | Ja |
 | Shopify-Sync-/Seed-Skripte | `SHOPIFY_CLIENT_SECRET` | Ja |
